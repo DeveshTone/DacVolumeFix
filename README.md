@@ -3,7 +3,7 @@
 
   <h1>DacVolumeFix</h1>
 
-  <p><strong>Automatically unlocks full hardware volume on USB DACs connected to Android — no root, 2.4 MB.</strong></p>
+  <p><strong>Automatically unlocks full hardware volume on USB DACs connected to Android — no root.</strong></p>
 
   <p>
     <a href="LICENSE"><img src="https://img.shields.io/badge/License-GPL--3.0-blue.svg" alt="License: GPL-3.0" /></a>
