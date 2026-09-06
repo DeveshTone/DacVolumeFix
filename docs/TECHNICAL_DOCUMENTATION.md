@@ -1,6 +1,6 @@
 # DacVolumeFix — Comprehensive Technical Documentation & Architecture Specification
 
-> **Target Audience:** System Architects, Android Kernel/Audio Engineers, Open-Source Contributors.  
+> **Target Audience:** Developers and technically curious users.  
 > **Source Repository:** [DacVolumeFix (`com.wrick.DacVolumeFix`)](https://github.com/DeveshTone/DacVolumeFix)  
 > **Target Android Platform:** Android 8.0 (API 26) through Android 15 (API 35)  
 > **Architecture Status:** Pure Kotlin Framework Implementation (Zero C++ / Zero libusb)  
@@ -565,7 +565,7 @@ This restores the ALSA sound pipeline with zero native C++ binaries!
 | **Driver Recovery Mechanism** | Direct `ioctlInt(21780)` (`USBDEVFS_RESET`) | `libusb_reset_device` (Fails ALSA) | None | `libusb_reset_device` (Fails ALSA) | Proprietary custom USB stack |
 | **Android Version Support** | Android 8.0 – 15 (API 26 – 35) | Android 10 – 14 | Android 9 – 12 | Android 10 – 14 | Android 5.0 – 15 |
 | **UI Design System** | Modern Material 3 + Dynamic Colors | Legacy Android View XML | CLI / None | Jetpack Compose (Material 2) | Custom legacy skeuomorphic |
-| **Themed App Icon** | Monochrome Vector (Android 13+ Material You) | None (Default icon) | None | None | None |
+| **Themed App Icon** | Adaptive Icon (Android 8.0+) | None (Default icon) | None | None | None |
 | **Idle Battery Consumption** | **0.0% (Zero background processes)** | 0.0% (No background service) | Variable | Low | High (Maintains active USB polling) |
 
 ---
@@ -589,12 +589,12 @@ This restores the ALSA sound pipeline with zero native C++ binaries!
 
 | Device Manufacturer | Device Model | Android Version | Kernel Version | Operational Status |
 |---|---|---|---|---|
-| **Google** | Pixel 6 / 7 / 8 / 9 Series | Android 13, 14, 15 | Linux 5.10 / 5.15 / 6.1 | **Flawless (Strategy 1 / Zero Mute)** |
-| **Samsung** | Galaxy S20 / S21 / S22 / S23 / S24 | One UI 5 / 6 (Android 13 / 14) | Linux 5.4 / 5.10 / 5.15 | **Flawless (Strategy 1 / Zero Mute)** |
-| **OnePlus** | 7T / 8 / 9 / 10 / 11 / 12 / 12R | OxygenOS 11, 12, 13, 14 | Linux 4.19 / 5.4 / 5.15 | **Flawless** (Requires OTG enabled on some models) |
-| **Xiaomi / POCO** | POCO F3 / F5, Xiaomi 13 / 14 | HyperOS / MIUI 14 | Linux 5.10 / 5.15 | **Flawless** |
-| **Motorola** | Edge 30 / 40 / 50 Series | Android 13, 14 | Linux 5.10 / 5.15 | **Flawless** |
-| **Sony** | Xperia 1 IV / V | Android 13, 14 | Linux 5.15 | **Flawless** |
+| **Google** | Pixel 6 / 7 / 8 / 9 Series | Android 13, 14, 15 | Linux 5.10 / 5.15 / 6.1 | Expected Compatible |
+| **Samsung** | Galaxy S20 / S21 / S22 / S23 / S24 | One UI 5 / 6 (Android 13 / 14) | Linux 5.4 / 5.10 / 5.15 | Expected Compatible |
+| **OnePlus** | 7T / 8 / 9 / 10 / 11 / 12 / 12R | OxygenOS 11, 12, 13, 14 | Linux 4.19 / 5.4 / 5.15 | Expected Compatible (Requires OTG enabled on some models) |
+| **Xiaomi / POCO** | POCO F3 / F5, Xiaomi 13 / 14 | HyperOS / MIUI 14 | Linux 5.10 / 5.15 | Expected Compatible |
+| **Motorola** | Edge 30 / 40 / 50 Series | Android 13, 14 | Linux 5.10 / 5.15 | Expected Compatible |
+| **Sony** | Xperia 1 IV / V | Android 13, 14 | Linux 5.15 | Expected Compatible |
 
 ---
 
@@ -682,4 +682,4 @@ By replacing `libusb` and custom JNI bridges with Android's native framework cla
 
 ---
 
-*Authored by the DacVolumeFix Engineering Team. Designed for inclusion in developer wikis, technical whitepapers, and GitHub repository documentation.*
+*Authored by Devesh. Designed for technical reference, developer wikis, and GitHub repository documentation.*

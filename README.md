@@ -5,23 +5,23 @@
 [![Size: 2.4 MB](https://img.shields.io/badge/APK%20Size-2.4%20MB-success.svg)](https://github.com/DeveshTone/DacVolumeFix/releases)
 [![GitHub release](https://img.shields.io/github/v/release/DeveshTone/DacVolumeFix)](https://github.com/DeveshTone/DacVolumeFix/releases)
 
-> **Automatically unlocks full hardware volume on USB DACs connected to Android — no root, no setup, 2.4 MB.**
+> **Automatically unlocks full hardware volume on USB DACs connected to Android — no root, 2.4 MB.**
 
 <p align="center">
-  <img src="docs/screenshots/main_screen.png" width="320" alt="DacVolumeFix Main Interface" />
+  <img src="https://raw.githubusercontent.com/DeveshTone/DacVolumeFix/main/docs/screenshots/main_screen.png" width="320" alt="DacVolumeFix Main Interface" />
   &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="docs/screenshots/info_screen.png" width="320" alt="DacVolumeFix About Interface" />
+  <img src="https://raw.githubusercontent.com/DeveshTone/DacVolumeFix/main/docs/screenshots/info_screen.png" width="320" alt="DacVolumeFix About Interface" />
 </p>
 
 ---
 
 ## The Problem
 
-Most modern Android smartphones have dropped the 3.5mm headphone jack, requiring you to use a USB-C to 3.5mm headphone adapter or DAC. However, when you connect popular DACs like the **Apple USB-C Headphone Adapter**, your music often sounds shockingly quiet and powerless—even with your Android volume slider maxed out at 100%.
+Most modern Android smartphones have dropped the 3.5mm headphone jack, requiring you to use a USB-C to 3.5mm headphone adapter or DAC. However, when you connect popular DACs like the **Apple USB-C Headphone Adapter**, your music often sounds surprisingly quiet and underpowered—even with your Android volume slider maxed out at 100%.
 
-This happens because the DAC initializes its internal hardware volume chip to an aggressive low default (usually around -20 dB to -40 dB, or roughly 15% to 25% of potential output). While Windows, macOS, and iOS automatically send a command to set the DAC's hardware volume to full (0 dB unity gain), **Android completely ignores this hardware register**. The Android volume slider only scales the digital audio before sending it out, leaving the physical amplifier permanently starved of power.
+This happens because the DAC initializes its internal hardware volume chip to an aggressive low default (usually around -20 dB to -40 dB, or roughly 15% to 25% of potential output). While Windows, macOS, and iOS automatically set the DAC's internal hardware volume to full (0 dB unity gain), **Android does not adjust the DAC's hardware volume registers**. The Android volume slider only scales the digital audio before sending it out, leaving the physical hardware amplifier starved of power.
 
-**DacVolumeFix solves this automatically.** Whenever your DAC is plugged in, DacVolumeFix quietly sends the standard USB Audio Class command to unlock the hardware volume register to full 0 dB output—giving you the rich dynamic range, volume, and driving power your headphones were meant to have.
+**DacVolumeFix solves this automatically.** Whenever your DAC is connected, DacVolumeFix sends standard USB Audio Class commands to set the hardware volume register to full 0 dB output—giving you the full volume, dynamic range, and driving power your headphones were designed for.
 
 ---
 
@@ -42,62 +42,78 @@ This happens because the DAC initializes its internal hardware volume chip to an
 
 ---
 
-## Installation
+## Why DacVolumeFix
+
+- **Pure Kotlin** — zero C++ native libraries, zero NDK, runs natively on any Android CPU
+- **2.4 MB** — no native binary overhead from cross-compiled `.so` files
+- **Invisible** — windowless background operation, never interrupts what you're doing
+- **One-time permission** — `device_filter.xml` pre-grants USB access, no repeated dialogs
+- **Zero idle battery** — completely dormant when no DAC is connected, event-driven only
+- **Universal** — unlocks volume system-wide for every app, not tied to any specific music player
+- **Open source** — GPL-3.0, full source code available, no telemetry, no internet permission
+
+---
+
+## Installation & Setup
 
 ### Download APK
-Download the latest signed release APK from the [Releases Page](https://github.com/DeveshTone/DacVolumeFix/releases/latest):
+Download the signed release APK from the [Releases Page](https://github.com/DeveshTone/DacVolumeFix/releases/latest):
 - **[`DacVolumeFix.apk`](https://github.com/DeveshTone/DacVolumeFix/releases/latest/download/DacVolumeFix.apk)** (~2.4 MB)
 
-### First-Time Setup (Takes 5 Seconds)
-1. Install and open **DacVolumeFix**.
+*(F-Droid submission planned)*
+
+### Setup
+1. Install and launch **DacVolumeFix**.
 2. Connect your USB DAC or 3.5mm adapter.
-3. When the Android USB prompt appears, check **"Always open DacVolumeFix when this USB device is connected"** and tap **OK**.
-4. That's it! From now on, whenever you plug in your DAC, DacVolumeFix automatically unlocks the hardware volume in the background. You never have to open the app again.
+3. The app automatically detects your DAC and unlocks the hardware volume.
+4. If "Auto-apply on connect" is enabled, future connections will automatically unlock in the background without needing to open the app.
 
 ---
 
 ## How It Works
 
-1. **Background Trampoline:** When your DAC is inserted, Android triggers an invisible, windowless dispatcher that launches without interrupting whatever you are doing (watching YouTube, listening to Spotify, gaming, or navigating).
-2. **Pure Framework Control Transfers:** Unlike older tools that relied on heavy C++ `libusb` binaries, DacVolumeFix is written entirely in pure Kotlin using Android's native `UsbDeviceConnection.controlTransfer()`.
-3. **Zero-Mute Active Playback:** Older tools severed the kernel driver, causing your music to go completely mute if volume was adjusted during playback. DacVolumeFix uses multi-tier non-destructive transfers that leave Android's sound card pipeline intact, allowing smooth volume adjustment while music is playing.
-4. **Self-Terminating Service:** The unlock completes in less than 200 milliseconds, displays a confirmation notification, and immediately shuts down. It consumes **0.0% battery** while idle.
+1. **Background Trampoline:** When your DAC is inserted, Android triggers an invisible, windowless dispatcher that launches without interrupting whatever you are doing.
+2. **Pure Framework Control Transfers:** DacVolumeFix is written entirely in pure Kotlin using Android's native `UsbDeviceConnection.controlTransfer()`, avoiding native C++ dependencies.
+3. **Automated Hardware Programming:** DacVolumeFix communicates with the DAC's AudioControl interface and Feature Unit, setting the digital attenuation register to 0 dB (or your custom target level).
+4. **Self-Terminating Service:** The unlock completes quickly, displays a confirmation notification in your status bar, and shuts down immediately. It consumes **0.0% battery** while idle.
 
 > 📖 **Want the deep technical breakdown?**  
 > Read our full [Technical Documentation & Architecture Specification](docs/TECHNICAL_DOCUMENTATION.md) covering kernel `devio` internals, UAC 8.8 fixed-point decibel conversion, descriptor parsing, and `USBDEVFS_RESET`.
 
 ---
 
-## Comparison With Existing Solutions
-
-| Feature / Capability | **DacVolumeFix** | **guyman624** | **KnobDroid** | **UAPP** |
-|---|---|---|---|---|
-| **Architecture** | **Pure Kotlin Framework** | Native C++ (`libusb`) | Native C++ (`libusb`) | Proprietary USB Driver |
-| **APK File Size** | **~2.4 MB** | ~18.5 MB | ~21.5 MB | ~35.0 MB |
-| **Music Mutes When Adjusted** | **FIXED (Zero dropouts)** | Mutes permanently | Mutes on each change | Bypasses ALSA |
-| **Background Automation** | **Invisible (0ms windowless)** | Pops up full window | Pops up full window | Background media player |
-| **Foreground App Disrupted** | **Never (Zero interruption)** | Interrupts active app | Interrupts active app | Interrupts active app |
-| **Permission Popups on Plug-in** | **None (One-time grant)** | Prompted every launch | Prompted every launch | Exclusive lock prompt |
-| **Hardware Volume Slider** | **Continuous dB (-80 to 0)** | Hex input (`0000` only) | Stepped rotary knob | Player fader |
-| **System-Wide Audio Support** | **Universal (All Apps)** | Universal | Universal | **UAPP Player Only** |
-| **Cost & Source** | **100% Free & Open Source** | Open Source | Open Source | Paid ($8 Proprietary) |
-| **Idle Battery Drain** | **0.0% (Zero background activity)** | 0.0% | Low | High (Active polling) |
-| **Design System** | **Material 3 + Themed Icons** | Legacy Views | Material 2 | Skeuomorphic |
-
----
-
 ## Compatibility
 
-Tested and confirmed operating systems:
+Compatible with Android 8.0 through Android 15 (API 26+):
 - **Android 15** (Vanilla Ice Cream)
 - **Android 14** (Upside Down Cake)
 - **Android 13** (Tiramisu)
 - **Android 12 / 12L** (Snow Cone)
 - **Android 11** (Red Velvet Cake)
 - **Android 10** (Quince Tart)
-- **Android 9.0 Pie & 8.0 Oreo** (API 26+)
+- **Android 9.0 Pie & 8.0 Oreo**
 
-*Tested across Google Pixel, Samsung Galaxy (One UI), OnePlus (OxygenOS), Xiaomi / POCO (HyperOS / MIUI), Motorola, and Sony devices.*
+---
+
+## Building from Source
+
+### Prerequisites
+- Android Studio Ladybug (or newer)
+- JDK 17 or higher
+- Android SDK 35 (API 26 minSdk)
+
+### Build Steps
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/DeveshTone/DacVolumeFix.git
+   cd DacVolumeFix
+   ```
+2. Build the signed release APK using Gradle:
+   ```bash
+   ./gradlew assembleRelease
+   ```
+3. The compiled APK will be generated at:
+   `app/build/outputs/apk/release/app-release.apk`
 
 ---
 
