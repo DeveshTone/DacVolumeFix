@@ -1,0 +1,45 @@
+Categories:
+  - Multimedia
+  - System
+License: GPL-3.0-or-later
+AuthorName: Devesh
+SourceCode: https://github.com/DeveshTone/DacVolumeFix
+IssueTracker: https://github.com/DeveshTone/DacVolumeFix/issues
+Changelog: https://github.com/DeveshTone/DacVolumeFix/blob/HEAD/CHANGELOG.md
+
+AutoName: DacVolumeFix
+Summary: Automatically unlock full hardware volume on USB DACs
+Description: |-
+  Modern Android smartphones require a USB-C to 3.5mm adapter or DAC for wired
+  listening. However, popular DACs (such as the Apple USB-C Headphone Adapter)
+  initialize internal hardware volume registers to an attenuated default
+  (-20 dB to -40 dB). Because Android does not adjust hardware volume registers,
+  headphones remain quiet even with the system slider set to 100%.
+
+  DacVolumeFix resolves this automatically by sending standard USB Audio Class 2
+  commands to set the internal hardware volume register to full 0 dB dynamic
+  range.
+
+  Features:
+  * Pure Kotlin implementation with zero native C++ binaries (2.4 MB)
+  * Windowless background execution on DAC plug-in
+  * Suppresses recurring Android audio capture warning popups
+  * Continuous -80 dB to 0 dB volume adjustment slider
+  * Zero idle battery impact (event-driven, no background polling)
+  * 100% offline with zero internet permissions and zero telemetry
+
+RepoType: git
+Repo: https://github.com/DeveshTone/DacVolumeFix.git
+
+Builds:
+  - versionName: '1.0'
+    versionCode: 1
+    commit: v1.0.0
+    subdir: app
+    gradle:
+      - yes
+
+AutoUpdateMode: Version
+UpdateCheckMode: Tags
+CurrentVersion: '1.0'
+CurrentVersionCode: 1
