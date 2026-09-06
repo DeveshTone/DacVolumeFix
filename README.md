@@ -1,16 +1,24 @@
-# DacVolumeFix
+<div align="center">
+  <img src="docs/icon.png" width="100" height="100" style="border-radius: 22px;" alt="DacVolumeFix App Icon" />
 
-[![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-blue.svg)](LICENSE)
-[![Android: 8.0+](https://img.shields.io/badge/Android-8.0%2B%20(API%2026%2B)-green.svg)](https://developer.android.com)
-[![Size: 2.4 MB](https://img.shields.io/badge/APK%20Size-2.4%20MB-success.svg)](https://github.com/DeveshTone/DacVolumeFix/releases)
-[![GitHub release](https://img.shields.io/github/v/release/DeveshTone/DacVolumeFix)](https://github.com/DeveshTone/DacVolumeFix/releases)
+  <h1>DacVolumeFix</h1>
 
-> **Automatically unlocks full hardware volume on USB DACs connected to Android — no root, 2.4 MB.**
+  <p><strong>Automatically unlocks full hardware volume on USB DACs connected to Android — no root, 2.4 MB.</strong></p>
+
+  <p>
+    <a href="LICENSE"><img src="https://img.shields.io/badge/License-GPL--3.0-blue.svg" alt="License: GPL-3.0" /></a>
+    <a href="https://developer.android.com"><img src="https://img.shields.io/badge/Android-8.0%2B%20(API%2026%2B)-green.svg" alt="Android 8.0+" /></a>
+    <a href="https://github.com/DeveshTone/DacVolumeFix/releases"><img src="https://img.shields.io/badge/APK%20Size-2.4%20MB-success.svg" alt="APK Size: 2.4 MB" /></a>
+    <a href="https://github.com/DeveshTone/DacVolumeFix/releases"><img src="https://img.shields.io/github/v/release/DeveshTone/DacVolumeFix" alt="GitHub release" /></a>
+  </p>
+</div>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/DeveshTone/DacVolumeFix/main/docs/screenshots/main_screen.png" width="320" alt="DacVolumeFix Main Interface" />
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="https://raw.githubusercontent.com/DeveshTone/DacVolumeFix/main/docs/screenshots/info_screen.png" width="320" alt="DacVolumeFix About Interface" />
+  <img src="docs/screenshots/always_ready_in_the_background.png" width="31%" alt="Always Ready in the Background" />
+  &nbsp;
+  <img src="docs/screenshots/plug_in_done.png" width="31%" alt="Plug In. Done" />
+  &nbsp;
+  <img src="docs/screenshots/build_for_audiophiles.png" width="31%" alt="Build For Audiophiles" />
 </p>
 
 ---
@@ -119,10 +127,17 @@ Compatible with Android 8.0 through Android 15 (API 26+):
 
 ## Contributing
 
-We welcome pull requests and hardware test reports!
+Pull requests and hardware test reports are welcome!
 
 - **Report a new DAC:** If you have tested a DAC or adapter, please submit a [DAC Compatibility Report](https://github.com/DeveshTone/DacVolumeFix/issues/new?template=dac_compatibility.yml) with your device's USB Vendor ID (VID) and Product ID (PID).
 - **Bug Reports & Feature Requests:** Please open an issue using the [Issue Templates](https://github.com/DeveshTone/DacVolumeFix/issues).
+
+---
+
+## Acknowledgements
+
+- Built with the assistance of [Antigravity AI](https://antigravity.ai) for code generation, architecture design, and debugging.
+- Technical research inspired by the prior work of [ibaiGorordo](https://github.com/ibaiGorordo), [guyman624](https://github.com/guyman624), and [polhdez](https://github.com/polhdez).
 
 ---
 

@@ -1,5 +1,6 @@
 # DacVolumeFix — Comprehensive Technical Documentation & Architecture Specification
 
+> **Author:** Authored by Devesh with AI-assisted code generation via Antigravity AI.  
 > **Target Audience:** Developers and technically curious users.  
 > **Source Repository:** [DacVolumeFix (`com.wrick.DacVolumeFix`)](https://github.com/DeveshTone/DacVolumeFix)  
 > **Target Android Platform:** Android 8.0 (API 26) through Android 15 (API 35)  
@@ -39,12 +40,11 @@
    - 8.1 [Linux USB Devio Subsystem Internals](#81-linux-usb-devio-subsystem-internals)
    - 8.2 [Why ioctl 21780 Is Critical](#82-why-ioctl-21780-is-critical)
    - 8.3 [Reflection-Based System Call Invocation](#83-reflection-based-system-call-invocation)
-9. [Comprehensive Competitive Comparison](#9-comprehensive-competitive-comparison)
-10. [Hardware Compatibility Matrix & Verified Environments](#10-hardware-compatibility-matrix--verified-environments)
-11. [Known Edge Cases, Constraints & Mitigations](#11-known-edge-cases-constraints--mitigations)
-12. [Security & Permissions Breakdown](#12-security--permissions-breakdown)
-13. [Battery Consumption & Resource Analysis](#13-battery-consumption--resource-analysis)
-14. [APK Footprint & Binary Distribution Analysis](#14-apk-footprint--binary-distribution-analysis)
+9. [Hardware Compatibility Matrix & Verified Environments](#9-hardware-compatibility-matrix--verified-environments)
+10. [Known Edge Cases, Constraints & Mitigations](#10-known-edge-cases-constraints--mitigations)
+11. [Security & Permissions Breakdown](#11-security--permissions-breakdown)
+12. [Battery Consumption & Resource Analysis](#12-battery-consumption--resource-analysis)
+13. [APK Footprint & Binary Distribution Analysis](#13-apk-footprint--binary-distribution-analysis)
 
 ---
 
@@ -550,42 +550,22 @@ This restores the ALSA sound pipeline with zero native C++ binaries!
 
 ---
 
-## 9. Comprehensive Competitive Comparison
+## 9. Hardware Compatibility Matrix & Verified Environments
 
-| Technical Evaluation Dimension | **DacVolumeFix (This Project)** | **guyman624/usbDacVolumeAndroid** | **polhdez/Apple-Dongle-Fix** | **KnobDroid** | **USB Audio Player PRO (UAPP)** |
-|---|---|---|---|---|---|
-| **Core Architecture** | Pure Kotlin Framework (`UsbDeviceConnection`) | Native C++ (`libusb` via JNI) | Shell script / Termux scripts | Native C++ (`libusbAndroidTest.so`) | Closed-Source Proprietary USB Driver |
-| **APK Binary Footprint** | **~2.4 MB** | ~18.5 MB | N/A (Scripts) | ~21.5 MB | ~35.0 MB |
-| **Active Playback Audio Mute Bug** | **SOLVED (Zero dropouts via 0x21/0x20 No-Claim)** | **Severe Bug** (Audio permanently killed) | **Severe Bug** (Requires ALSA kill) | **Severe Bug** (Mutes on every adjustment) | N/A (Bypasses Android ALSA entirely) |
-| **Background Automation Mechanism** | Invisible `UsbTrampolineActivity` (0ms) | Launches foreground Activity | Manual command execution | Launches foreground Activity | Persistent background media service |
-| **Foreground Disruption on Plug-in** | **None (Zero UI, 100% background)** | Interrupts active app | Interrupts terminal | Interrupts active app | Interrupts active app |
-| **Runtime Permission Model** | Automated permanent grant (`device_filter.xml`) | Modal system popup every launch | Root / Termux permissions | Modal system popup every launch | Exclusive USB claim popup |
-| **Volume Adjustment Range** | **Continuous Decibel Slider (-80 dB to 0 dB)** | Hex string input (`0000` only) | Fixed 0 dB script | Stepped volume knob | Internal software/hardware fader |
-| **System-Wide Audio Support** | **Universal** (Spotify, Apple Music, YouTube, Games) | Universal (after unplug recovery) | Limited | Universal (after mute recovery) | **Proprietary Only** (Audio inside UAPP only) |
-| **Driver Recovery Mechanism** | Direct `ioctlInt(21780)` (`USBDEVFS_RESET`) | `libusb_reset_device` (Fails ALSA) | None | `libusb_reset_device` (Fails ALSA) | Proprietary custom USB stack |
-| **Android Version Support** | Android 8.0 – 15 (API 26 – 35) | Android 10 – 14 | Android 9 – 12 | Android 10 – 14 | Android 5.0 – 15 |
-| **UI Design System** | Modern Material 3 + Dynamic Colors | Legacy Android View XML | CLI / None | Jetpack Compose (Material 2) | Custom legacy skeuomorphic |
-| **Themed App Icon** | Adaptive Icon (Android 8.0+) | None (Default icon) | None | None | None |
-| **Idle Battery Consumption** | **0.0% (Zero background processes)** | 0.0% (No background service) | Variable | Low | High (Maintains active USB polling) |
-
----
-
-## 10. Hardware Compatibility Matrix & Verified Environments
-
-### 10.1 Confirmed Audio Chipsets & Dongles
+### 9.1 Audio Chipsets & Dongles
 
 | Manufacturer / Brand | Model / Chipset Identifier | Hardware Topology | Tested Result |
 |---|---|---|---|
-| **Apple** | **A2049 (US Version, 1.0 Vrms)** | VID: `0x05AC`, PID: `0x110A` (Feature Unit 2) | **100% Verified** (Full 0 dB Output) |
-| **Apple** | **A2155 (EU Version, 0.5 Vrms)** | VID: `0x05AC`, PID: `0x110B` (Feature Unit 2) | **100% Verified** (Full 0 dB Output) |
-| **Conexant / Synaptics** | **CX31993** (JCALLY JA04, Abigail, etc.) | VID: `0x1F2A`, PID: `0x0001` (Feature Unit 5/7) | **100% Verified** (Full 0 dB Output) |
-| **Realtek** | **ALC5686 / ALC4042 / ALC4050** | VID: `0x0BDA`, PID: Various (Feature Unit 6) | **100% Verified** (Full 0 dB Output) |
-| **Cirrus Logic** | **CS43131 / CS43198** (Moondrop Dawn Pro, Tanchjim Space) | UAC2 Multi-Channel (Feature Unit 2/5) | **100% Verified** (Full 0 dB Output) |
-| **FiiO** | **KA11 / KA13 / JA11** | UAC2 High-Power Architecture | **100% Verified** (Full 0 dB Output) |
-| **ESS Sabre** | **ES9280AC / ES9281AC / ES9038Q2M** | UAC2 Asynchronous Master | **100% Verified** (Full 0 dB Output) |
-| **Tempotec** | **Sonata HD / Sonata BHD** | Dual CS43131 / FPGA | **100% Verified** (Full 0 dB Output) |
+| **Apple** | **A2049 (US Version, 1.0 Vrms)** | VID: `0x05AC`, PID: `0x110A` (Feature Unit 2) | **Confirmed Working** (Full 0 dB Output) |
+| **Apple** | **A2155 (EU Version, 0.5 Vrms)** | VID: `0x05AC`, PID: `0x110B` (Feature Unit 2) | **Confirmed Working** (Full 0 dB Output) |
+| **Conexant / Synaptics** | **CX31993** (JCALLY JA04, Abigail, etc.) | VID: `0x1F2A`, PID: `0x0001` (Feature Unit 5/7) | *Expected Compatible — Community Verification Needed* |
+| **Realtek** | **ALC5686 / ALC4042 / ALC4050** | VID: `0x0BDA`, PID: Various (Feature Unit 6) | *Expected Compatible — Community Verification Needed* |
+| **Cirrus Logic** | **CS43131 / CS43198** (Moondrop Dawn Pro, Tanchjim Space) | UAC2 Multi-Channel (Feature Unit 2/5) | *Expected Compatible — Community Verification Needed* |
+| **FiiO** | **KA11 / KA13 / JA11** | UAC2 High-Power Architecture | *Expected Compatible — Community Verification Needed* |
+| **ESS Sabre** | **ES9280AC / ES9281AC / ES9038Q2M** | UAC2 Asynchronous Master | *Expected Compatible — Community Verification Needed* |
+| **Tempotec** | **Sonata HD / Sonata BHD** | Dual CS43131 / FPGA | *Expected Compatible — Community Verification Needed* |
 
-### 10.2 Confirmed Host Android Devices & Operating Systems
+### 9.2 Host Android Devices & Operating Systems
 
 | Device Manufacturer | Device Model | Android Version | Kernel Version | Operational Status |
 |---|---|---|---|---|
@@ -598,26 +578,26 @@ This restores the ALSA sound pipeline with zero native C++ binaries!
 
 ---
 
-## 11. Known Edge Cases, Constraints & Mitigations
+## 10. Known Edge Cases, Constraints & Mitigations
 
-### 11.1 ColorOS / OxygenOS 10-Minute OTG Auto-Shutoff
+### 10.1 ColorOS / OxygenOS 10-Minute OTG Auto-Shutoff
 - **Constraint:** On certain OnePlus, Oppo, and Realme devices running ColorOS/OxygenOS, the Android kernel powers down the USB Type-C OTG bus if no peripheral is detected for 10 minutes.
 - **Symptom:** Plugging in the DAC produces no power LED and no USB enumeration event.
 - **Mitigation:** The user must enable *"OTG Connection"* under *Settings -> Additional Settings / System Settings*.
 
-### 11.2 Exclusive Audio USB Drivers (UAPP / HiByMusic / Neutron)
+### 10.2 Exclusive Audio USB Drivers (UAPP / HiByMusic / Neutron)
 - **Constraint:** If an audiophile media player configured for "Direct USB Audio Access" is active, it opens the raw USB endpoint exclusively and refuses to share Endpoint 0.
 - **Symptom:** `DacVolumeEngine` receives `null` from `usbManager.openDevice()`.
 - **Mitigation:** DacVolumeFix logs a diagnostic warning. The user should unlock volume via DacVolumeFix **before** opening exclusive players, or allow DacVolumeFix to run on connection before launching the player.
 
-### 11.3 Fixed Analog Gain DACs
+### 10.3 Fixed Analog Gain DACs
 - **Constraint:** Cheap unbranded generic Type-C adapters without an internal digital potentiometer omit the AudioControl Feature Unit entirely.
 - **Symptom:** `UsbDescriptorParser` reports 0 Feature Units; Strategy 1–4 are rejected.
 - **Explanation:** These DACs have no hardware volume register to unlock; their output volume is permanently governed by analog resistor dividers.
 
 ---
 
-## 12. Security & Permissions Breakdown
+## 11. Security & Permissions Breakdown
 
 DacVolumeFix strictly adheres to the Principle of Least Privilege:
 
@@ -636,15 +616,15 @@ DacVolumeFix strictly adheres to the Principle of Least Privilege:
 
 ---
 
-## 13. Battery Consumption & Resource Analysis
+## 12. Battery Consumption & Resource Analysis
 
-### 13.1 Zero-Polling Architecture
+### 12.1 Zero-Polling Architecture
 Unlike traditional utility apps that run continuous background polling loops, broadcast listeners, or wake locks, **DacVolumeFix has ZERO idle presence**:
 - When no DAC is connected, DacVolumeFix is **completely dead in memory**.
 - It does not register background alarm timers, WorkManager periodic tasks, or persistent background services.
 - **Battery Drain in 24 Hours Idle:** **0.000 mAh (0.0% battery impact)**.
 
-### 13.2 Transient Execution Profile
+### 12.2 Transient Execution Profile
 When a USB DAC is plugged in:
 1. `UsbTrampolineActivity` executes: **~12 ms** (CPU burst).
 2. `UsbUnlockService` starts and waits for kernel settling: **200 ms** (Thread sleeping on `Dispatchers.IO`).
@@ -656,9 +636,9 @@ When a USB DAC is plugged in:
 
 ---
 
-## 14. APK Footprint & Binary Distribution Analysis
+## 13. APK Footprint & Binary Distribution Analysis
 
-### 14.1 Package Composition Breakdown
+### 13.1 Package Composition Breakdown
 
 Compiled Release Binary: `DacVolumeFix.apk` (**2,491,737 bytes approx 2.38 MB**)
 
@@ -677,9 +657,9 @@ Compiled Release Binary: `DacVolumeFix.apk` (**2,491,737 bytes approx 2.38 MB**)
 +-------------------------------------------------------------+
 ```
 
-### 14.2 The Elimination of Native Libraries
+### 13.2 The Elimination of Native Libraries
 By replacing `libusb` and custom JNI bridges with Android's native framework classes, DacVolumeFix eliminates four distinct compiled `.so` binaries (`arm64-v8a`, `armeabi-v7a`, `x86`, `x86_64`), reducing the application footprint from **21.5 MB to 2.4 MB**.
 
 ---
 
-*Authored by Devesh. Designed for technical reference, developer wikis, and GitHub repository documentation.*
+*Authored by Devesh with AI-assisted code generation via Antigravity AI. Designed for technical reference, developer wikis, and GitHub repository documentation.*
