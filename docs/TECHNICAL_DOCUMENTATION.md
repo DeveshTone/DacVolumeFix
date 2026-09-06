@@ -36,6 +36,7 @@
    - 7.1 [Android USB Host Security Architecture](#71-android-usb-host-security-architecture)
    - 7.2 [device_filter.xml Configuration Analysis](#72-device_filterxml-configuration-analysis)
    - 7.3 [Permanent Framework Grants](#73-permanent-framework-grants)
+   - 7.4 [Android Audio Capture Warning Suppression (RECORD_AUDIO)](#74-android-audio-capture-warning-suppression-record_audio)
 8. [Kernel Driver Re-Binding via USBDEVFS_RESET](#8-kernel-driver-re-binding-via-usbdevfs_reset)
    - 8.1 [Linux USB Devio Subsystem Internals](#81-linux-usb-devio-subsystem-internals)
    - 8.2 [Why ioctl 21780 Is Critical](#82-why-ioctl-21780-is-critical)
@@ -489,6 +490,32 @@ When a device matching `device_filter.xml` is attached:
 4. `usbManager.hasPermission(device)` immediately evaluates to `true`.
 5. The device is opened and unlocked with **zero user prompts**.
 
+### 7.4 Android Audio Capture Warning Suppression (`RECORD_AUDIO`)
+
+Even when `device_filter.xml` matches and pre-grants USB host access, certain USB DACs—notably the Apple A2049/A2155 adapter and other dongles featuring a 3.5mm TRRS jack—declare bidirectional USB Audio Class streaming interfaces:
+1. **Audio Output Terminal (DAC)**: Isochronous OUT endpoint for headphone playback.
+2. **Audio Input Terminal (ADC / Microphone)**: Isochronous IN endpoint for headset microphone capture.
+
+When Android's `UsbDeviceManager` receives a device attachment event for hardware exposing an audio input interface, the Android OS security subsystem performs an independent validation: it checks whether the recipient app possesses `android.permission.RECORD_AUDIO`.
+
+If `RECORD_AUDIO` is **not** granted, Android intercepts the intent dispatch and displays a mandatory security modal on **every connection**:
+
+> *"Open DacVolumeFix to handle [Device Name]?  
+> This app has not been granted record permission but could capture audio through this USB device. Using DacVolumeFix with this device might prevent hearing calls, notifications and alarms.  
+> [CANCEL] [OK]"*
+
+Because this check originates from Android's media security policy rather than the USB subsystem, it **cannot be bypassed through `device_filter.xml` alone**.
+
+**The Framework Solution:**
+DacVolumeFix declares `android.permission.RECORD_AUDIO` in `AndroidManifest.xml` and requests it at runtime on first app launch with an explicit rationale dialog:
+> *"Required to suppress Android's repeated USB audio warning. DacVolumeFix never records or stores audio."*
+
+Once the user grants this permission:
+- Android marks the app as authorized for audio-capture-capable USB hardware.
+- The recurring system audio capture warning dialog is **permanently suppressed**.
+- Automatic background volume unlocks proceed without friction or dialog interruptions.
+- **Privacy Guarantee:** DacVolumeFix never instantiates `AudioRecord`, `MediaRecorder`, or native audio capture pipelines. The permission acts exclusively as an OS-level capability flag to silence the USB capture warning.
+
 ---
 
 ## 8. Kernel Driver Re-Binding via USBDEVFS_RESET
@@ -603,16 +630,17 @@ DacVolumeFix strictly adheres to the Principle of Least Privilege:
 
 | Declared Permission | Protection Level | Purpose & Necessity |
 |---|---|---|
+| **`android.permission.RECORD_AUDIO`** | Dangerous (Runtime) | Required to suppress Android's repeated system USB audio capture warning dialog on DAC connection (caused by DACs exposing an ADC/microphone interface). DacVolumeFix never records, accesses, or stores audio streams. |
 | **`android.permission.FOREGROUND_SERVICE`** | Normal | Permits running `UsbUnlockService` as a foreground service on Android 9+ to display the status bar unlock notification. |
 | **`android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE`** | Normal | Required on Android 14+ (API 34+) to explicitly designate that the foreground service manages physical external hardware (`connectedDevice`). |
 | **`android.permission.POST_NOTIFICATIONS`** | Dangerous (Runtime) | Required on Android 13+ (API 33+) to post the non-intrusive status notification displaying the unlock status. |
 | **`android.hardware.usb.host`** | Hardware Feature | Informs Google Play and package installers that the host device must possess USB Host / OTG capabilities. |
 
-**Permissions NOT Requested:**
-- NO Network / Internet Permission (`android.permission.INTERNET`) — 100% offline, zero tracking, zero telemetry.
-- NO Storage / Media Access (`READ_EXTERNAL_STORAGE`) — Does not access user files.
-- NO Microphone Permission (`android.permission.RECORD_AUDIO`) — Does not intercept or record audio streams.
-- NO Root Access Required — Fully unrooted standard Android userspace operation.
+**Privacy & Security Invariants:**
+- **Zero Audio Capture Execution:** Although `android.permission.RECORD_AUDIO` is granted to satisfy Android's OS-level USB audio device security check, DacVolumeFix never instantiates `AudioRecord`, `MediaRecorder`, or native audio capture pipelines. Communication is strictly confined to USB Control Endpoint 0 for volume manipulation.
+- **NO Network / Internet Permission (`android.permission.INTERNET`):** 100% offline, zero tracking, zero telemetry, zero remote network calls.
+- **NO Storage / Media Access (`READ_EXTERNAL_STORAGE`):** Does not access user files.
+- **NO Root Access Required:** Fully unrooted standard Android userspace operation.
 
 ---
 

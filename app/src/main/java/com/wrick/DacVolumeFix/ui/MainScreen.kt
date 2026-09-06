@@ -30,7 +30,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Bolt
 import androidx.compose.material.icons.rounded.Headphones
 import androidx.compose.material.icons.rounded.Info
+import androidx.compose.material.icons.rounded.Mic
 import androidx.compose.material.icons.rounded.Tune
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -45,6 +47,7 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -204,7 +207,12 @@ fun MainScreen(
     isAutoApplyEnabled: Boolean,
     liveVolumeDb: Int,
     hasNotificationPermission: Boolean,
+    hasAudioPermission: Boolean,
+    showAudioRationaleDialog: Boolean = false,
     onRequestNotificationPermission: () -> Unit,
+    onRequestAudioPermission: () -> Unit,
+    onDismissAudioRationale: () -> Unit = {},
+    onConfirmAudioRationale: () -> Unit = {},
     onAutoApplyChanged: (Boolean) -> Unit,
     onLiveVolumeChanged: (Int) -> Unit,
     onApplyLiveVolume: () -> Unit,
@@ -212,6 +220,46 @@ fun MainScreen(
     onOpenInfo: () -> Unit
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+
+    if (showAudioRationaleDialog) {
+        AlertDialog(
+            onDismissRequest = onDismissAudioRationale,
+            icon = {
+                Icon(
+                    imageVector = Icons.Rounded.Mic,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(28.dp)
+                )
+            },
+            title = {
+                Text(
+                    text = "Microphone Permission Required",
+                    style = MaterialTheme.typography.titleLarge
+                )
+            },
+            text = {
+                Text(
+                    text = "Required to suppress Android's repeated USB audio warning. DacVolumeFix never records or stores audio.",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            },
+            confirmButton = {
+                Button(
+                    onClick = onConfirmAudioRationale,
+                    shape = RoundedCornerShape(50)
+                ) {
+                    Text("Grant Permission")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = onDismissAudioRationale) {
+                    Text("Not Now")
+                }
+            }
+        )
+    }
 
     Scaffold(
         modifier = Modifier
@@ -259,6 +307,54 @@ fun MainScreen(
                     .padding(horizontal = 14.dp, vertical = 6.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
+                // USB Audio Warning Suppression Permission Alert Banner
+                if (!hasAudioPermission) {
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(16.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceVariant
+                        ),
+                        border = BorderStroke(
+                            1.dp,
+                            MaterialTheme.colorScheme.outlineVariant
+                        ),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 14.dp, vertical = 12.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            Text(
+                                text = "USB Audio Warning Suppression",
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.SemiBold,
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                            Text(
+                                text = "Required to suppress Android's repeated USB audio warning. DacVolumeFix never records or stores audio.",
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                            Button(
+                                onClick = onRequestAudioPermission,
+                                shape = RoundedCornerShape(50),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = MaterialTheme.colorScheme.primary
+                                )
+                            ) {
+                                Text(
+                                    text = "Grant Permission",
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                            }
+                        }
+                    }
+                }
+
                 // Permission Alert Banner (if missing on Android 13+)
                 if (!hasNotificationPermission) {
                     Card(

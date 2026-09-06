@@ -55,7 +55,7 @@ This happens because the DAC initializes its internal hardware volume chip to an
 - **Pure Kotlin** — zero C++ native libraries, zero NDK, runs natively on any Android CPU
 - **2.4 MB** — no native binary overhead from cross-compiled `.so` files
 - **Invisible** — windowless background operation, never interrupts what you're doing
-- **One-time permission** — `device_filter.xml` pre-grants USB access, no repeated dialogs
+- **One-time permission** — `device_filter.xml` pre-grants USB access, and `RECORD_AUDIO` permission suppresses Android's repeated USB audio capture warning dialog
 - **Zero idle battery** — completely dormant when no DAC is connected, event-driven only
 - **Universal** — unlocks volume system-wide for every app, not tied to any specific music player
 - **Open source** — GPL-3.0, full source code available, no telemetry, no internet permission
@@ -72,9 +72,12 @@ Download the signed release APK from the [Releases Page](https://github.com/Deve
 
 ### Setup
 1. Install and launch **DacVolumeFix**.
-2. Connect your USB DAC or 3.5mm adapter.
-3. The app automatically detects your DAC and unlocks the hardware volume.
-4. If "Auto-apply on connect" is enabled, future connections will automatically unlock in the background without needing to open the app.
+2. Grant requested permissions:
+   - **Microphone / Audio**: Required to suppress Android's repeated USB audio capture warning dialog on DAC connection (many DACs expose an ADC/microphone interface). DacVolumeFix never records or stores audio.
+   - **Notifications** (Android 13+): Displays the background volume unlock status.
+3. Connect your USB DAC or 3.5mm adapter.
+4. The app automatically detects your DAC and unlocks the hardware volume.
+5. If "Auto-apply on connect" is enabled, future connections will automatically unlock in the background without needing to open the app.
 
 ---
 
@@ -122,6 +125,19 @@ Compatible with Android 8.0 through Android 15 (API 26+):
    ```
 3. The compiled APK will be generated at:
    `app/build/outputs/apk/release/app-release.apk`
+
+---
+
+## Permissions & Privacy
+
+| Permission | Type | Reason |
+|---|---|---|
+| `android.permission.RECORD_AUDIO` | Runtime | Required to suppress Android's repeated USB audio capture warning dialog on DAC connection (caused by DACs exposing an ADC/microphone interface). **DacVolumeFix never records or stores audio.** |
+| `android.permission.POST_NOTIFICATIONS` | Runtime | Displays a non-intrusive status bar notification when your DAC is unlocked on Android 13+. |
+| `android.permission.FOREGROUND_SERVICE` | Normal | Allows the transient unlock service to run reliably across Android versions. |
+| `android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE` | Normal | Required on Android 14+ for foreground services interacting with external USB hardware. |
+
+DacVolumeFix is **100% offline** — zero internet permission (`android.permission.INTERNET`), zero telemetry, and zero tracking.
 
 ---
 

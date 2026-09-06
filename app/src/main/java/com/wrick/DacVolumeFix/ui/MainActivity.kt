@@ -34,6 +34,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.wrick.DacVolumeFix.data.DacRepository
 import com.wrick.DacVolumeFix.service.UsbUnlockService
 import com.wrick.DacVolumeFix.util.AppLogger
 
@@ -47,12 +48,21 @@ class MainActivity : ComponentActivity() {
     private val viewModel: MainViewModel by viewModels()
     private lateinit var usbManager: UsbManager
     private var hasNotificationPermission by mutableStateOf(true)
+    private var hasAudioPermission by mutableStateOf(true)
+    private var showAudioRationaleDialog by mutableStateOf(false)
 
     private val notificationPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
         hasNotificationPermission = isGranted
         AppLogger.i(TAG, "Notification permission result: $isGranted")
+    }
+
+    private val audioPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        hasAudioPermission = isGranted
+        AppLogger.i(TAG, "Audio permission result: $isGranted")
     }
 
     private val usbReceiver = object : BroadcastReceiver() {
@@ -111,6 +121,13 @@ class MainActivity : ComponentActivity() {
         insetsController.isAppearanceLightNavigationBars = false // Transparent nav bar
 
         checkNotificationPermission()
+        checkAudioPermission()
+
+        val repository = DacRepository(this)
+        if (!hasAudioPermission && !repository.hasPromptedAudioPermission) {
+            showAudioRationaleDialog = true
+            repository.hasPromptedAudioPermission = true
+        }
 
         val filter = IntentFilter().apply {
             addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED)
@@ -162,6 +179,14 @@ class MainActivity : ComponentActivity() {
                             }
                         ) {
                             val onRequestNotificationPermission = remember { { requestNotificationPermission() } }
+                            val onRequestAudioPermission = remember { { requestAudioPermission() } }
+                            val onDismissAudioRationale = remember { { showAudioRationaleDialog = false } }
+                            val onConfirmAudioRationale = remember {
+                                {
+                                    showAudioRationaleDialog = false
+                                    requestAudioPermission()
+                                }
+                            }
                             val onAutoApplyChanged = remember { { enabled: Boolean -> viewModel.setAutoApply(enabled) } }
                             val onLiveVolumeChanged = remember { { volDb: Int -> viewModel.setLiveVolume(volDb) } }
                             val onApplyLiveVolume = remember {
@@ -181,7 +206,12 @@ class MainActivity : ComponentActivity() {
                                 isAutoApplyEnabled = isAutoApplyEnabled,
                                 liveVolumeDb = liveVolumeDb,
                                 hasNotificationPermission = hasNotificationPermission,
+                                hasAudioPermission = hasAudioPermission,
+                                showAudioRationaleDialog = showAudioRationaleDialog,
                                 onRequestNotificationPermission = onRequestNotificationPermission,
+                                onRequestAudioPermission = onRequestAudioPermission,
+                                onDismissAudioRationale = onDismissAudioRationale,
+                                onConfirmAudioRationale = onConfirmAudioRationale,
                                 onAutoApplyChanged = onAutoApplyChanged,
                                 onLiveVolumeChanged = onLiveVolumeChanged,
                                 onApplyLiveVolume = onApplyLiveVolume,
@@ -253,9 +283,21 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    private fun checkAudioPermission() {
+        hasAudioPermission = ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.RECORD_AUDIO
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun requestAudioPermission() {
+        audioPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+    }
+
     override fun onResume() {
         super.onResume()
         checkNotificationPermission()
+        checkAudioPermission()
         viewModel.refreshDeviceState()
     }
 

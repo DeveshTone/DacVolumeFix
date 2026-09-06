@@ -12,4 +12,5 @@ All notable changes to **DacVolumeFix** will be documented in this file.
 - **Dynamic Descriptor Parsing:** Traverses raw USB configuration descriptors to detect AudioControl interfaces and Feature Unit IDs dynamically across different DAC topologies.
 - **Kernel Driver Re-Bind via ioctl:** Integrated fallback `USBDEVFS_RESET` (ioctl code 21780) to force ALSA sound card re-enumeration if strict driver detachment occurs.
 - **Automated Permission Grants:** Configured `device_filter.xml` to streamline USB permissions.
+- **USB Audio Capture Warning Suppression:** Declared `RECORD_AUDIO` and added runtime rationale prompt on first app launch to suppress Android's recurring system warning modal on DACs exposing microphone/ADC endpoints.
 - **Material 3 Design:** Built clean, symmetric dashboard with Google Material 3 components and status bar unlock notification icon.

@@ -210,6 +210,37 @@ fun InfoScreen(
                     }
                 }
 
+                // Card 3: Permissions & Privacy
+                item {
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(16.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceVariant
+                        ),
+                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            verticalArrangement = Arrangement.spacedBy(10.dp)
+                        ) {
+                            Text(
+                                text = "Permissions & Privacy",
+                                style = MaterialTheme.typography.titleMedium,
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                            Text(
+                                text = "• Microphone (RECORD_AUDIO): Required to suppress Android's repeated USB audio capture warning popup on DAC attachment. Many DACs expose a TRRS headset/ADC interface; granting this permission tells Android the app is aware of audio capture capability, suppressing the warning dialog entirely. DacVolumeFix never records or stores audio.\n\n• Notifications (POST_NOTIFICATIONS): Required on Android 13+ to display the status bar unlock notification.\n\n• 100% Offline: Zero internet permission requested. No tracking, analytics, or background data transmission.",
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
+                }
+
                 item {
                     Spacer(modifier = Modifier.navigationBarsPadding())
                     Spacer(modifier = Modifier.height(16.dp))
