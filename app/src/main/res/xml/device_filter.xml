@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Apple USB-C to 3.5mm Headphone Jack Adapter (US Model A2049: VID 0x05AC / 1452, PID 0x110A / 4362) -->
+    <usb-device vendor-id="1452" product-id="4362" />
+
+    <!-- Apple USB-C to 3.5mm Headphone Jack Adapter (EU Model A2155: VID 0x05AC / 1452, PID 0x110B / 4363) -->
+    <usb-device vendor-id="1452" product-id="4363" />
+
+    <!-- CX31993 chipsets / Conexant (e.g. VID 0x1F2A / 7978) -->
+    <usb-device vendor-id="7978" />
+
+    <!-- Generic USB Audio Class devices: Class 1 (Audio) -->
+    <usb-device class="1" />
+
+    <!-- USB Audio Composite devices: Class 239 (Miscellaneous), SubClass 2, Protocol 1 (IAD) -->
+    <usb-device class="239" subclass="2" protocol="1" />
+</resources>

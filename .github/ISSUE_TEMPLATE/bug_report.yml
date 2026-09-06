@@ -1,0 +1,33 @@
+name: Bug Report
+description: Report an issue or unexpected behavior
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: input
+    id: phone_info
+    attributes:
+      label: Device Model & Android Version
+      placeholder: e.g., Samsung Galaxy S23, One UI 6.1 (Android 14)
+    validations:
+      required: true
+  - type: input
+    id: dac_info
+    attributes:
+      label: USB DAC Model
+      placeholder: e.g., Apple USB-C Adapter Model A2049
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the Bug
+      placeholder: Clear and concise description of what happened.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      placeholder: 1. Plug in DAC... 2. Open Spotify...
+    validations:
+      required: true

@@ -1,0 +1,51 @@
+name: DAC Compatibility Report
+description: Report test results for a USB DAC or 3.5mm adapter
+title: "[DAC Report]: <Brand & Model>"
+labels: ["compatibility", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: Thank you for testing DacVolumeFix! Your report helps the community identify supported audio hardware.
+  - type: input
+    id: dac_model
+    attributes:
+      label: DAC Brand & Model
+      placeholder: e.g., JCALLY JM6 Pro, Fiio KA11, Apple A2049
+    validations:
+      required: true
+  - type: input
+    id: usb_ids
+    attributes:
+      label: USB VID and PID (if known)
+      placeholder: e.g., VID 0x1F2A, PID 0x0001
+  - type: input
+    id: phone_model
+    attributes:
+      label: Phone Model & Android Version
+      placeholder: e.g., Google Pixel 8 Pro on Android 15
+    validations:
+      required: true
+  - type: dropdown
+    id: volume_increase
+    attributes:
+      label: Did the volume increase to full hardware output?
+      options:
+        - "Yes, significant increase (Volume Unlocked)"
+        - "No, volume remained unchanged"
+        - "Error or device not recognized"
+    validations:
+      required: true
+  - type: dropdown
+    id: active_playback
+    attributes:
+      label: Did audio continue playing smoothly without muting?
+      options:
+        - "Yes, smooth without muting"
+        - "No, sound muted"
+    validations:
+      required: true
+  - type: textarea
+    id: additional_info
+    attributes:
+      label: Additional Notes & Headphones Used
+      placeholder: Headphones used (impedance), sound quality changes, or logs.
