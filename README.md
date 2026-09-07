@@ -8,7 +8,7 @@
   <p>
     <a href="LICENSE"><img src="https://img.shields.io/badge/License-GPL--3.0-blue.svg" alt="License: GPL-3.0" /></a>
     <a href="https://developer.android.com"><img src="https://img.shields.io/badge/Android-9.0%2B%20(API%2028%2B)-green.svg" alt="Android 9.0+" /></a>
-    <a href="https://github.com/DeveshTone/DacVolumeFix/releases"><img src="https://img.shields.io/badge/APK%20Size-2.4%20MB-success.svg" alt="APK Size: 2.4 MB" /></a>
+    <a href="https://github.com/DeveshTone/DacVolumeFix/releases"><img src="https://img.shields.io/badge/APK%20Size-2.2%20MB-success.svg" alt="APK Size: 2.2 MB" /></a>
     <a href="https://github.com/DeveshTone/DacVolumeFix/releases"><img src="https://img.shields.io/github/v/release/DeveshTone/DacVolumeFix" alt="GitHub release" /></a>
     <a href="https://gitlab.com/fdroid/fdroiddata/-/merge_requests/48006"><img src="https://img.shields.io/badge/F--Droid-In%20Review-orange.svg" alt="F-Droid In Review" /></a>
   </p>
@@ -54,7 +54,7 @@ This happens because the DAC initializes its internal hardware volume chip to an
 ## Why DacVolumeFix
 
 - **Pure Kotlin** — zero C++ native libraries, zero NDK, runs natively on any Android CPU
-- **2.4 MB** — no native binary overhead from cross-compiled `.so` files
+- **2.2 MB** — no native binary overhead from cross-compiled `.so` files
 - **Invisible** — windowless background operation, never interrupts what you're doing
 - **One-time permission** — `device_filter.xml` pre-grants USB access, and `RECORD_AUDIO` permission suppresses Android's repeated USB audio capture warning dialog
 - **Zero idle battery** — completely dormant when no DAC is connected, event-driven only
@@ -67,7 +67,7 @@ This happens because the DAC initializes its internal hardware volume chip to an
 
 ### Download APK
 Download the signed release APK from the [Releases Page](https://github.com/DeveshTone/DacVolumeFix/releases/latest):
-- **[`DacVolumeFix.apk`](https://github.com/DeveshTone/DacVolumeFix/releases/latest/download/DacVolumeFix.apk)** (~2.4 MB)
+- **[`DacVolumeFix.apk`](https://github.com/DeveshTone/DacVolumeFix/releases/latest/download/DacVolumeFix.apk)** (~2.2 MB)
 
 - **F-Droid**: Currently in review ([MR !48006](https://gitlab.com/fdroid/fdroiddata/-/merge_requests/48006)) — all CI build & verification checks passed.
 
@@ -97,13 +97,13 @@ Download the signed release APK from the [Releases Page](https://github.com/Deve
 ## Compatibility
 
 Compatible with Android 9.0 through Android 15 (API 28+):
-- **Android 15** (Vanilla Ice Cream)
-- **Android 14** (Upside Down Cake)
-- **Android 13** (Tiramisu)
-- **Android 12 / 12L** (Snow Cone)
-- **Android 11** (Red Velvet Cake)
-- **Android 10** (Quince Tart)
-- **Android 9.0** (Pie)
+- **Android 15** (Vanilla Ice Cream — API 35)
+- **Android 14** (Upside Down Cake — API 34)
+- **Android 13** (Tiramisu — API 33)
+- **Android 12 / 12L** (Snow Cone — API 31 / 32)
+- **Android 11** (Red Velvet Cake — API 30)
+- **Android 10** (Quince Tart — API 29)
+- **Android 9.0** (Pie — API 28)
 
 ---
 
@@ -111,8 +111,8 @@ Compatible with Android 9.0 through Android 15 (API 28+):
 
 ### Prerequisites
 - Android Studio Ladybug (or newer)
-- JDK 17 or higher
-- Android SDK 35 (API 26 minSdk)
+- JDK 17 or higher (tested with JDK 17, 21, and 25)
+- Android SDK (compileSdk 36, minSdk 28, targetSdk 35)
 
 ### Build Steps
 1. Clone the repository:
@@ -153,7 +153,7 @@ Pull requests and hardware test reports are welcome!
 
 ## Acknowledgements
 
-- Built with the assistance of [Antigravity AI](https://antigravity.ai) for code generation, architecture design, and debugging.
+- Built with the assistance of [Antigravity AI](https://antigravity.google/) for code generation, architecture design, and debugging.
 - Technical research inspired by the prior work of [ibaiGorordo](https://github.com/ibaiGorordo), [guyman624](https://github.com/guyman624), and [polhdez](https://github.com/polhdez).
 
 ---
