@@ -7,9 +7,10 @@
 
   <p>
     <a href="LICENSE"><img src="https://img.shields.io/badge/License-GPL--3.0-blue.svg" alt="License: GPL-3.0" /></a>
-    <a href="https://developer.android.com"><img src="https://img.shields.io/badge/Android-8.0%2B%20(API%2026%2B)-green.svg" alt="Android 8.0+" /></a>
+    <a href="https://developer.android.com"><img src="https://img.shields.io/badge/Android-9.0%2B%20(API%2028%2B)-green.svg" alt="Android 9.0+" /></a>
     <a href="https://github.com/DeveshTone/DacVolumeFix/releases"><img src="https://img.shields.io/badge/APK%20Size-2.4%20MB-success.svg" alt="APK Size: 2.4 MB" /></a>
     <a href="https://github.com/DeveshTone/DacVolumeFix/releases"><img src="https://img.shields.io/github/v/release/DeveshTone/DacVolumeFix" alt="GitHub release" /></a>
+    <a href="https://gitlab.com/fdroid/fdroiddata/-/merge_requests/48006"><img src="https://img.shields.io/badge/F--Droid-In%20Review-orange.svg" alt="F-Droid In Review" /></a>
   </p>
 </div>
 
@@ -68,7 +69,7 @@ This happens because the DAC initializes its internal hardware volume chip to an
 Download the signed release APK from the [Releases Page](https://github.com/DeveshTone/DacVolumeFix/releases/latest):
 - **[`DacVolumeFix.apk`](https://github.com/DeveshTone/DacVolumeFix/releases/latest/download/DacVolumeFix.apk)** (~2.4 MB)
 
-*(F-Droid submission planned)*
+- **F-Droid**: Currently in review ([MR !48006](https://gitlab.com/fdroid/fdroiddata/-/merge_requests/48006)) — all CI build & verification checks passed.
 
 ### Setup
 1. Install and launch **DacVolumeFix**.
@@ -95,14 +96,14 @@ Download the signed release APK from the [Releases Page](https://github.com/Deve
 
 ## Compatibility
 
-Compatible with Android 8.0 through Android 15 (API 26+):
+Compatible with Android 9.0 through Android 15 (API 28+):
 - **Android 15** (Vanilla Ice Cream)
 - **Android 14** (Upside Down Cake)
 - **Android 13** (Tiramisu)
 - **Android 12 / 12L** (Snow Cone)
 - **Android 11** (Red Velvet Cake)
 - **Android 10** (Quince Tart)
-- **Android 9.0 Pie & 8.0 Oreo**
+- **Android 9.0** (Pie)
 
 ---
 
