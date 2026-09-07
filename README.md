@@ -66,8 +66,7 @@ This happens because the DAC initializes its internal hardware volume chip to an
 ## Installation & Setup
 
 ### Download APK
-Download the signed release APK from the [Releases Page](https://github.com/DeveshTone/DacVolumeFix/releases/latest):
-- **[`DacVolumeFix.apk`](https://github.com/DeveshTone/DacVolumeFix/releases/latest/download/DacVolumeFix.apk)** (~2.2 MB)
+Download the signed release APK from [GitHub Releases](https://github.com/DeveshTone/DacVolumeFix/releases/latest).
 
 ### Setup
 1. Install and launch **DacVolumeFix**.
@@ -152,7 +151,7 @@ Pull requests and hardware test reports are welcome!
 ## Acknowledgements
 
 - Built with the assistance of [Antigravity AI](https://antigravity.google/) for code generation, architecture design, and debugging.
-- Technical research inspired by the prior work of [ibaiGorordo](https://github.com/ibaiGorordo), [guyman624](https://github.com/guyman624), and [polhdez](https://github.com/polhdez).
+- Technical research inspired by the prior work of [ibaiGorordo](https://github.com/ibaiGorordo/libusbAndroidTest), [guyman624](https://github.com/guyman624/usbDacVolumeAndroid), and [polhdez](https://github.com/polhdez/usbDacVolumeAndroid).
 
 ---
 

@@ -146,7 +146,7 @@ Historically, existing open-source solutions relied on native C++ builds of `lib
 
 ## 3. The libusb Paradigm vs. Pure Kotlin Framework
 
-Early implementations (such as `guyman624/usbDacVolumeAndroid` and `KnobDroid`) relied on native C++ wrappers built around the open-source `libusb` library (`libusbAndroidTest.so`). While functional as proof-of-concepts, this approach suffers from foundational architectural flaws on the Android platform.
+Early implementations (such as [`guyman624/usbDacVolumeAndroid`](https://github.com/guyman624/usbDacVolumeAndroid) and [`polhdez/usbDacVolumeAndroid`](https://github.com/polhdez/usbDacVolumeAndroid)) relied on native C++ wrappers built around the open-source `libusb` library ([`ibaiGorordo/libusbAndroidTest`](https://github.com/ibaiGorordo/libusbAndroidTest)). While functional as proof-of-concepts, this approach suffers from foundational architectural flaws on the Android platform.
 
 ### 3.1 The Audio Muting Bug (Kernel Driver Detachment)
 
