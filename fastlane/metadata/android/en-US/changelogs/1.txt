@@ -1,0 +1,5 @@
+Initial public release:
+- Pure Kotlin UAC2 volume unlock engine
+- Windowless background trampoline
+- USB audio capture warning suppression
+- Material 3 user interface

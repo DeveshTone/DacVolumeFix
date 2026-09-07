@@ -124,7 +124,7 @@ fun InfoScreen(
                                 color = MaterialTheme.colorScheme.onSurface
                             )
                             Text(
-                                text = "Version 1.0 (Build 1)",
+                                text = "Version 1.0.0 (Build 1)",
                                 style = MaterialTheme.typography.labelLarge,
                                 color = MaterialTheme.colorScheme.primary
                             )

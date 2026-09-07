@@ -1,12 +1,11 @@
-DacVolumeFix automatically unlocks full hardware volume on USB DACs and 3.5mm adapters connected to Android without root.
+Modern Android smartphones require a USB-C to 3.5mm adapter or DAC for wired listening. However, popular DACs (such as the Apple USB-C Headphone Adapter) initialize internal hardware volume registers to an attenuated default (-20 dB to -40 dB). Because Android does not adjust hardware volume registers, headphones remain quiet even with the system slider set to 100%.
 
-When an external USB DAC (such as the Apple USB-C Headphone Adapter) is connected to an Android phone, Android initializes the DAC's internal hardware volume chip to a low default (-20 dB to -40 dB). The standard Android volume slider only scales the digital audio before output, leaving the physical DAC output quiet and underpowered.
+DacVolumeFix resolves this automatically by sending standard USB Audio Class 2 commands to set the internal hardware volume register to full 0 dB dynamic range.
 
-DacVolumeFix solves this issue:
-- Automatically detects connected USB Audio Class (UAC1/UAC2) DACs.
-- Sends standard USB Audio Class SET_CUR commands directly to the hardware Feature Unit.
-- Restores full 0 dB unattenuated output with maximum dynamic range.
-- Allows continuous volume fine-tuning from -80 dB to 0 dB.
-- Runs silently in the background without opening the app or interrupting active playback.
-- Zero battery drain when idle (no background services or wakelocks).
-- Lightweight: only 2.4 MB with zero native C++ bloat.
+Features:
+* Pure Kotlin implementation with zero native C++ binaries (2.4 MB)
+* Windowless background execution on DAC plug-in
+* Suppresses recurring Android audio capture warning popups
+* Continuous -80 dB to 0 dB volume adjustment slider
+* Zero idle battery impact (event-driven, no background polling)
+* 100% offline with zero internet permissions and zero telemetry
