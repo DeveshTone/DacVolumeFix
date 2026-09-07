@@ -1,11 +1,11 @@
 # DacVolumeFix — Comprehensive Technical Documentation & Architecture Specification
 
-> **Author:** Authored by Devesh with AI-assisted code generation via Antigravity AI.  
+> **Author:** Authored by Devesh with AI-assisted code generation via [Antigravity AI](https://antigravity.google/).  
 > **Target Audience:** Developers and technically curious users.  
 > **Source Repository:** [DacVolumeFix (`com.wrick.DacVolumeFix`)](https://github.com/DeveshTone/DacVolumeFix)  
-> **Target Android Platform:** Android 8.0 (API 26) through Android 15 (API 35)  
+> **Target Android Platform:** Android 9.0 (API 28) through Android 15 (API 35)  
 > **Architecture Status:** Pure Kotlin Framework Implementation (Zero C++ / Zero libusb)  
-> **Production Binary Footprint:** ~2.4 MB (R8 Full Mode + Resource Shrinking)
+> **Production Binary Footprint:** ~2.2 MB (R8 Full Mode + Resource Shrinking)
 
 ---
 
@@ -59,7 +59,7 @@ Conversely, **the Android OS ALSA sound subsystem does neither**. When a complia
 
 Historically, existing open-source solutions relied on native C++ builds of `libusb`, which severed the kernel driver, introduced severe active playback muting bugs, required invasive runtime permission popups, inflated APK sizes past 20 MB, and continuously disrupted the user with unwanted foreground transitions.
 
-**DacVolumeFix** completely resolves this problem through a 100% pure Kotlin framework architecture that communicates directly with the kernel USB devio interface, dynamically parses audio descriptors, prevents active playback muting, operates entirely silently in the background, and weighs only **2.4 MB**.
+**DacVolumeFix** completely resolves this problem through a 100% pure Kotlin framework architecture that communicates directly with the kernel USB devio interface, dynamically parses audio descriptors, prevents active playback muting, operates entirely silently in the background, and weighs only **2.2 MB**.
 
 ---
 
@@ -181,7 +181,7 @@ A native C++ shared library (`.so`) must be compiled and packaged separately for
 
 Each compiled `.so` file includes the full `libusb` runtime, POSIX threading wrappers, and JNI boilerplate. In `KnobDroid`, this resulted in an APK size exceeding **21.5 MB**.
 
-By contrast, DacVolumeFix relies entirely on the standard Android framework classes (`android.hardware.usb.*`). With R8 full-mode optimization and resource shrinking, **the entire compiled DacVolumeFix APK is only 2.4 MB (an 88% reduction)** with zero CPU architecture constraints.
+By contrast, DacVolumeFix relies entirely on the standard Android framework classes (`android.hardware.usb.*`). With R8 full-mode optimization and resource shrinking, **the entire compiled DacVolumeFix APK is only 2.2 MB (an 89% reduction)** with zero CPU architecture constraints.
 
 ### 3.3 Memory Safety & JNI Lifecycle Hazards
 
@@ -668,26 +668,26 @@ When a USB DAC is plugged in:
 
 ### 13.1 Package Composition Breakdown
 
-Compiled Release Binary: `DacVolumeFix.apk` (**2,491,737 bytes approx 2.38 MB**)
+Compiled Release Binary: `DacVolumeFix.apk` (**2,337,525 bytes approx 2.23 MB**)
 
 ```
 +-------------------------------------------------------------+
 |               DacVolumeFix APK Size Breakdown               |
 +-------------------------------------------------------------+
-| classes.dex (Compiled Dalvik Executable with R8 Full Mode)  |  ~1.2 MB
+| classes.dex (Compiled Dalvik Executable with R8 Full Mode)  |  ~1.1 MB
 | res/ (Compiled resources, Vector Drawables, Mipmaps)        |  ~0.8 MB
 | resources.arsc (Resource index table)                       |  ~0.3 MB
 | AndroidManifest.xml (Binary XML format)                     |  ~3.0 KB
 | META-INF/ (Jar signing certificates & cryptographic digests)|  ~0.1 MB
 | lib/ (Native shared C++ libraries)                          |  0.0 KB (NONE!)
 +-------------------------------------------------------------+
-| TOTAL PRODUCTION APK SIZE                                   |  ~2.4 MB
+| TOTAL PRODUCTION APK SIZE                                   |  ~2.2 MB
 +-------------------------------------------------------------+
 ```
 
 ### 13.2 The Elimination of Native Libraries
-By replacing `libusb` and custom JNI bridges with Android's native framework classes, DacVolumeFix eliminates four distinct compiled `.so` binaries (`arm64-v8a`, `armeabi-v7a`, `x86`, `x86_64`), reducing the application footprint from **21.5 MB to 2.4 MB**.
+By replacing `libusb` and custom JNI bridges with Android's native framework classes, DacVolumeFix eliminates four distinct compiled `.so` binaries (`arm64-v8a`, `armeabi-v7a`, `x86`, `x86_64`), reducing the application footprint from **21.5 MB to 2.2 MB**.
 
 ---
 
-*Authored by Devesh with AI-assisted code generation via Antigravity AI. Designed for technical reference, developer wikis, and GitHub repository documentation.*
+*Authored by Devesh with AI-assisted code generation via [Antigravity AI](https://antigravity.google/). Designed for technical reference, developer wikis, and GitHub repository documentation.*

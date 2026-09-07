@@ -1,5 +1,8 @@
 Initial public release:
-- Pure Kotlin UAC2 volume unlock engine
-- Windowless background trampoline
+- Pure Kotlin UAC2 volume unlock engine (~2.2 MB)
+- Windowless background trampoline dispatcher
+- Multi-tier control transfer strategies (0 dB hardware unlock)
 - USB audio capture warning suppression
-- Material 3 user interface
+- Hardware decibel fine-tuning (-80 dB to 0 dB)
+- Dynamic descriptor parsing & ioctl ALSA re-bind
+- Material 3 user interface with zero idle battery impact
